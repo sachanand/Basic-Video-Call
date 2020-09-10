@@ -17,6 +17,9 @@
       </div>
     </nav>
   </div>
+
+
+
   <form id="form" class="row col l12 s12">
     <div class="row container col l12 s12">
       <div class="col" style="min-width: 433px; max-width: 443px">
@@ -116,10 +119,30 @@
       </div>
     </div>
   </form>
+
+  <!-- https://stackoverflow.com/questions/35244215/html5-video-screenshot-via-canvas-using-cors/35245146#35245146 -->
+
+  <video id="carvideo" width="320" height="176" controls>
+  <source src="V101.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+  </video>
+
+  <!-- <video id="carvideo" width="400" src="./V101.mp4" type="video/mp4">
+    Your browser does not support HTML video.
+  </video> -->
+
+  <p>
+    Video courtesy of 
+    <a href="https://www.bigbuckbunny.org/" target="_blank">Big Buck Bunny</a>.
+  </p>
+
   <script src="vendor/jquery.min.js"></script>
   <script src="vendor/materialize.min.js"></script>
   <script src="assets/AgoraRTCSDK.js"></script>
   <script>
+
+    var carstream;
+
     console.log("agora sdk version: " + AgoraRTC.VERSION + " compatible: " + AgoraRTC.checkSystemRequirements());
     var resolutions = [
       {
@@ -410,14 +433,25 @@
           rtc.params.uid = uid
 
           // create local stream
+          // rtc.localStream = AgoraRTC.createStream({
+          //   streamID: rtc.params.uid,
+          //   audio: true,
+          //   video: true,
+          //   screen: false,
+          //   microphoneId: option.microphoneId,
+          //   cameraId: option.cameraId
+          // })
+
           rtc.localStream = AgoraRTC.createStream({
-            streamID: rtc.params.uid,
-            audio: true,
+            
+            audio: false,
             video: true,
-            screen: false,
-            microphoneId: option.microphoneId,
-            cameraId: option.cameraId
+            videoSource: carstream.getVideoTracks()[0]
           })
+
+          
+
+
 
           // initialize local stream. Callback function executed after intitialization is done
           rtc.localStream.init(function () {
@@ -527,6 +561,36 @@
 
     // This function automatically executes when a document is ready.
     $(function () {
+
+
+      var Video = document.getElementById('carvideo');
+      carstream = Video.captureStream();
+
+
+      // injecting media stream
+
+      // navigator.mediaDevices.getUserMedia(
+      //   {video: true, audio: true}
+      //   ).then(function(mediaStream){
+      //     var videoSource = mediaStream.getVideoTracks()[0];
+      //     var audioSource = mediaStream.getAudioTracks()[0];
+      //     // After processing videoSource and audioSource
+      //     var localStream = AgoraRTC.createStream({
+      //         video: true,
+      //         audio: true,
+      //         videoSource: videoSource,
+      //         audioSource: audioSource
+      //     });
+      //     localStream.init(function(){
+      //         client.publish(localStream, function(e){
+      //       //...
+      //     });
+      //   });
+      
+      // });
+
+
+
       // This will fetch all the devices and will populate the UI for every device. (Audio and Video)
       getDevices(function (devices) {
         devices.audios.forEach(function (audio) {
