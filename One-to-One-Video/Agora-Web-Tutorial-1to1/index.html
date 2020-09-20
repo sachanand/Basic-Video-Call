@@ -19,7 +19,7 @@
   </div>
 
 
-
+  
   <form id="form" class="row col l12 s12">
     <div class="row container col l12 s12">
       <div class="col" style="min-width: 433px; max-width: 443px">
@@ -396,6 +396,19 @@
       **/
       rtc.client = AgoraRTC.createClient({mode: option.mode, codec: option.codec})
 
+
+      // Create screenshare option based on button click to enable screesharing
+
+
+      // screenStream = AgoraRTC.createStream({
+      //   streamID: uid,
+      //   audio: false,
+      //   video: false,
+      //   screen: true,
+      
+      // });
+
+
       rtc.params = option
 
       // handle AgoraRTC client event
@@ -567,27 +580,6 @@
       carstream = Video.captureStream();
 
 
-      // injecting media stream
-
-      // navigator.mediaDevices.getUserMedia(
-      //   {video: true, audio: true}
-      //   ).then(function(mediaStream){
-      //     var videoSource = mediaStream.getVideoTracks()[0];
-      //     var audioSource = mediaStream.getAudioTracks()[0];
-      //     // After processing videoSource and audioSource
-      //     var localStream = AgoraRTC.createStream({
-      //         video: true,
-      //         audio: true,
-      //         videoSource: videoSource,
-      //         audioSource: audioSource
-      //     });
-      //     localStream.init(function(){
-      //         client.publish(localStream, function(e){
-      //       //...
-      //     });
-      //   });
-      
-      // });
 
 
 
